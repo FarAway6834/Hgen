@@ -1,0 +1,14 @@
+S*.myhc			*.h
+*.domh			domh*.myhc
+domh*.myhc		domh*.h
+*.lvdomh		lv*.domh
+lv*.domh		domhlv*.myhc
+domhlv*.myhc		domhlv*.h
+*.iomh			includer*.myhc
+includer*.myhc		includer*.h
+*.siomh			std*.iomh
+std*.iomh		stdincluder*.myhc
+stdincluder*.myhc	stdincluder*.h
+*.xiomh			unstd*.iomh
+unstd*.iomh		unstdincluder*.myhc
+unstdincluder*.myhc	unstdincluder*.h
