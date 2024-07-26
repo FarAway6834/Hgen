@@ -32,5 +32,10 @@ def wither(opener):
 def tsvloadscore(fp):
   yield from csvr(fp, delimiter='\t')
 
-
-map = mov2thisfiledir(tsvloadscore)('filenamemap.tsv')
+def tsvloads(f):
+  ret = tsvloadscore(f)
+  ret = (ret, next(ret))
+  ret[0].close()
+  return ret[1]
+  
+map = mov2thisfiledir(tsvloads)('filenamemap.tsv')
