@@ -14,6 +14,15 @@ from subprocess import run as r
 from csv import DictReader as csvr
 #from sys import path as module_load_roots
 
+def mov2thisfiledir(func):
+  where = getdir(getabs(__file__))
+  def core(argvs):
+    back = pwd()
+    cd(where)
+    ret = func(argvs)
+    cd(back)
+    return ret
+  return core
 
 def shs(x, logging=True):
   v = r(x, shell=True)
@@ -109,7 +118,7 @@ def modopenergetcore(opener=None, **types):
   })
 
 
-modlists, getJ = tsvloads('modlists.csv'), (lambda f: l(o(f)))
+modlists, getJ = mov2thisfiledir(tsvloads)('modlists.csv'), (lambda f: l(o(f)))
 
 
 def modopenerget(opener=None):

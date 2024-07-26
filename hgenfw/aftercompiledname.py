@@ -1,5 +1,20 @@
-
 from csv import DictReader as csvr
+from os.path import dirname as getdir
+from os.path import abspath as getabs
+from os import chdir as cd
+from os import getcwd as pwd
+
+o = open
+
+def mov2thisfiledir(func):
+  where = getdir(getabs(__file__))
+  def core(argvs):
+    back = pwd()
+    cd(where)
+    ret = func(argvs)
+    cd(back)
+    return ret
+  return core
 
 def wither(opener):
 
@@ -16,5 +31,6 @@ def wither(opener):
 @wither(o)
 def tsvloadscore(fp):
   yield from csvr(fp, delimiter='\t')
-  
-map = tsvloadscore('filenamemap.tsv')
+
+
+map = mov2thisfiledir(tsvloadscore)('filenamemap.tsv')
