@@ -12,7 +12,7 @@ from os import chdir as cd
 from os import getcwd as pwd
 from subprocess import run as r
 from csv import DictReader as csvr
-from sys import path as module_load_roots
+#from sys import path as module_load_roots
 
 
 def shs(x, logging=True):
@@ -30,7 +30,7 @@ def wither(opener):
 
     def with_core(fn):
       with opener(fn) as fp:
-        return func(fn)
+        return func(fp)
 
     return with_core
 
@@ -312,9 +312,13 @@ class NtypecheckMyhdirNchangesButTxtOnly:
 
 @NtypecheckMyhdirNchangesButTxtOnly.libs.movMydir
 def myhd_compile(x, justcheck=False):
-  I = len(module_load_roots)
-  module_load_roots.append(pwd())
+  #I = len(module_load_roots)
+  #module_load_roots.append(pwd())
+  #then
+  back = pwd()
   if (cd(x), ):
     assert 'hfilegener.py' in ls(), f'NotMYHDir [{x}], no hfilegner.py'
     if not justcheck: shs('python hfilegener.py')
-    cd(module_load_roots.pop(I))
+    #cd(module_load_roots.pop(I))
+    #then
+    cd(back)
