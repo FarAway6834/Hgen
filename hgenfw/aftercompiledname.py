@@ -38,4 +38,21 @@ def tsvloads(f):
   ret[0].close()
   return ret[1]
   
-map = mov2thisfiledir(tsvloads)('filenamemap.tsv')
+maps = mov2thisfiledir(tsvloads)('filenamemap.tsv')
+
+class UndefinedExtErr(Exception): pass
+
+def maper(x):
+  y = x.split('.')
+  z = [None, None]
+  match y.pop():
+    case 'myhc': z = ['', 'h']
+    case 'domh': z = ['domh', 'h']
+    case 'lvdomh': z = ['lv', 'domh']
+    case 'iomh': z = ['includer', 'myhc']
+    case 'siomh': z = ['std', 'myhc']
+    case 'xiomh': z = ['unstd', 'myhc']
+    case 'thmh': z = ['types', 'myhc']
+    case _: raise UndefinedExtErr(f"'{x}' is not hgenfw's file")
+  y.append(z.pop())
+  return z.pop() + '.'.join(y)

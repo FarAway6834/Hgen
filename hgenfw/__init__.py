@@ -1,6 +1,6 @@
 __version__ = '0.0.1'
 
-__all__ = ['hfilegen.py', 'myhd4pyd.py', 'aftercompiledname.py', 'mytsv.py']
+__all__ = ['hfilegen.py', 'MyHP.py', 'aftercompiledname.py', 'mytsv.py']
 
 from os.path import isfile as isf
 p = [isf('filenamemap.tsv'), isf('modlists.tsv')]

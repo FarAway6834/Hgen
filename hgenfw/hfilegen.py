@@ -178,10 +178,18 @@ def define_hfilegen(f):
   fn = f'domh{fnt}.myhc'
   wither(w)(define_hfilegen_writer(f))(fn)
 
+def specup(x):
+  if '(' in x or ')' in x:
+    assert ')' in x, f"src \"{x}\" dosen't closed ')', Tip : this err raise when ~ ) ~ ( ~ case too."
+    assert '(' in x, f"src \"{x}\" closed even not opend"
+    return specup(x.split('(').pop(0))
+  else:
+    return x.upper()
+
 def directdef_compile(x):
   y = x.split()
   y.append(y.pop())
-  y.append(y[-1].upper())
+  y.append(specup(y[-1]))
   y.insert(0, y[-1])
   return ' '.join(y[:-2]) + f'\n{} {}'.format(*y[-2:])
 
@@ -331,3 +339,29 @@ def myhd_compile(x, justcheck=False):
     #cd(module_load_roots.pop(I))
     #then
     cd(back)
+
+class UndefinedExtErr(Exception): pass
+
+def righttypemethods(f):
+  ext = s(f).pop()
+  match ext:
+    case '.myhc':
+      return hfilegen_basic
+    case '.domh':
+      return define_hfilegen
+    case '.lvdomh':
+      return define_lowerver_hfilegen
+    case '.iomh':
+      return includes_hfilegen
+    case '.siomh':
+      return std_includes_hfilegen
+    case '.xiomh':
+      return unstd_includes_hfilegen
+    case '.thmh':
+      return typeheaders_gen
+    case '.f2ln':
+      return unlinextering
+    case '.myhd':
+      return (NtypecheckMyhdirNchangesButTxtOnly, myhd_compile)
+    case _:
+      raise UndefinedExtErr(f"{f}'s ext {ext} dosen't supports.")
